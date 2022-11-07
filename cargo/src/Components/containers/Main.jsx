@@ -1,23 +1,23 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import Cats from "../../Contexts/Cats";
-import CreateCat from "./CreateCat";
+import Containers from "../../Contexts/Containers";
+import Create from "./Create";
 import axios from "axios";
-import ListCat from "./ListCat";
-import EditCat from "./EditCat";
+import List from "./List";
+import Edit from "./Edit";
 import { authConfig } from "../../Functions/auth";
 
 function Main() {
   const [lastUpdate, setLastUpdate] = useState(Date.now());
   const [createData, setCreateData] = useState(null);
-  const [cats, setCats] = useState(null);
+  const [containers, setContainers] = useState(null);
   const [deleteData, setDeleteData] = useState(null);
   const [modalData, setModalData] = useState(null);
   const [editData, setEditData] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:3003/server/cats", authConfig()).then((res) => {
-      setCats(res.data);
+    axios.get("http://localhost:3003/server/containers", authConfig()).then((res) => {
+      setContainers(res.data);
     });
   }, [lastUpdate]);
 
@@ -26,7 +26,7 @@ function Main() {
       return;
     }
     axios
-      .post("http://localhost:3003/server/cats", createData, authConfig())
+      .post("http://localhost:3003/server/containers", createData, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
       });
@@ -37,7 +37,7 @@ function Main() {
       return;
     }
     axios
-      .delete("http://localhost:3003/server/cats/" + deleteData.id, authConfig())
+      .delete("http://localhost:3003/server/containers/" + deleteData.id, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
       });
@@ -48,17 +48,17 @@ function Main() {
       return;
     }
     axios
-      .put("http://localhost:3003/server/cats/" + editData.id, editData, authConfig())
+      .put("http://localhost:3003/server/containers/" + editData.id, editData, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
       });
   }, [editData]);
 
   return (
-    <Cats.Provider
+    <Containers.Provider
       value={{
         setCreateData,
-        cats,
+        containers,
         setDeleteData,
         modalData,
         setModalData,
@@ -68,15 +68,15 @@ function Main() {
       <div className="container">
         <div className="row">
           <div className="col-6">
-            <CreateCat />
+            <Create />
           </div>
           <div className="col-6">
-            <ListCat></ListCat>
+            <List></List>
           </div>
         </div>
       </div>
-      <EditCat></EditCat>
-    </Cats.Provider>
+      <Edit></Edit>
+    </Containers.Provider>
   );
 }
 

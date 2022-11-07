@@ -1,29 +1,24 @@
 import { useContext } from 'react';
 import Home from '../../Contexts/Home';
 
-import { useState } from "react";
 
-function Line({ movie }) {
 
-    const { setRateData, setMovies, filterOn, filterWhat } = useContext(Home);
+function Line({ box }) {
 
-    const [rate, setRate] = useState(5);
+    const { setBoxes, filterOn, filterWhat } = useContext(Home);
 
-    const doRating = () => {
-        setRateData({
-            id: movie.id,
-            rate
-        });
-        setRate(5);
-    }
+  
+
+   
 
     const filter = () => {
         if (filterOn.current){
-            setMovies(m => m.map(mo => ({...mo, show: true})));
+            setBoxes(b => b.map(bo => ({...bo, show: true})));
             filterWhat.current = null;
         } else {
-            setMovies(m => m.map(mo => mo.cat_id === movie.cat_id ? {...mo, show: true} : {...mo, show: false}));
-            filterWhat.current = movie.cat_id;
+            setBoxes(b => b.map(bo => bo.container_id === box.container_id ? {...bo, show: true} : {...bo, show: false}));
+            console.log(box.container_id)
+            filterWhat.current = box.container_id;
         }
         filterOn.current = !filterOn.current;
     }
@@ -31,33 +26,28 @@ function Line({ movie }) {
     return (
         <li className="list-group-item">
             <div className="home">
+                <div className="home__content__cat click-link" onClick={filter}>
+                        Container Number: {box.containerNumber}
+                </div>
+                <div className="home__content__cat">
+                        Container Size: {box.containerSize}
+                </div>
                 <div className="home__content">
                     <div className="home__content__info">
-                        <h2>{movie.title}</h2>
-                        {movie.image ? <div className='img-bin'>
-                            <img src={movie.image} alt={movie.title}>
+                        <h2>{box.title}</h2>
+                        {box.image ? <div className='img-bin'>
+                            <img src={box.image} alt={box.title}>
                             </img>
                         </div> : null}
                     </div>
                     <div className="home__content__price">
-                        {movie.price} Eur
+                        {box.weight} kg
                     </div>
+                    
 
-                    <div className="home__content__cat click-link" onClick={filter}>
-                        {movie.catTitle}
-                    </div>
+                    
 
-                    <div className="home__content__info">
-                        {movie.rating ?? 'no rating'}
-                        <select value={rate} onChange={e => setRate(e.target.value)}>
-                            {
-                                [...Array(10)].map((_, i) => <option key={i + 1} value={i + 1}>{i + 1}</option>)
-                            }
-                        </select>
-                    </div>
-                    <div className="home__buttons">
-                    <button onClick={doRating} type="button" className="btn btn-outline-success">Rate</button>
-                </div>
+                    
                 </div>
             </div>
         </li>

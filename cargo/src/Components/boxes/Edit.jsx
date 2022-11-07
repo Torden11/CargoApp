@@ -1,13 +1,13 @@
-import Movies from "../../Contexts/Movies";
+import Boxes from "../../Contexts/Boxes";
 import { useContext, useEffect, useState, useRef } from "react";
 //Nuotrauka
 import getBase64 from "../../Functions/getBase64";
 
-function EditMovie() {
-  const { modalData, setModalData, setEditData, cats } = useContext(Movies);
+function Edit() {
+  const { modalData, setModalData, setEditData, containers } = useContext(Boxes);
   const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [cat, setCat] = useState(0);
+  const [weight, setWeight] = useState("");
+  const [container, setContainer] = useState(0);
   const [deletePhoto, setDeletePhoto] = useState(false);
 
   //Nuotrauka
@@ -18,7 +18,7 @@ function EditMovie() {
   const doPhoto = () => {
     getBase64(fileInput.current.files[0])
       .then((photo) => setPhotoPrint(photo))
-      .catch((_) => {
+      .containerch((_) => {
         // tylim
       });
   };
@@ -30,8 +30,8 @@ function EditMovie() {
     }
     // console.log(modalData)
     setTitle(modalData.title);
-    setPrice(modalData.price);
-    setCat(modalData.cat_id);
+    setWeight(modalData.weight);
+    setContainer(modalData.container_id);
     //Nuotrauka
     setPhotoPrint(modalData.image);
     setDeletePhoto(false);
@@ -41,8 +41,8 @@ function EditMovie() {
   const save = () => {
     setEditData({
       title,
-      price: parseFloat(price),
-      cat: parseInt(cat),
+      weight,
+      container: parseInt(container),
       id: modalData.id,
       deletePhoto: deletePhoto ? 1 : 0,
       image: photoPrint
@@ -72,7 +72,7 @@ function EditMovie() {
             <div className="card m-4">
               <div className="card-body">
                 <div className="mb-3">
-                  <label className="form-label">Movie Title</label>
+                  <label className="form-label">Item Title</label>
                   <input
                     type="text"
                     className="form-control"
@@ -80,27 +80,27 @@ function EditMovie() {
                     onChange={(e) => setTitle(e.target.value)}
                   />
                   <div className="mb-3">
-                    <label className="form-label">Movie Price</label>
+                    <label className="form-label">Box weight</label>
                     <input
                       type="text"
                       className="form-control"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
+                      value={weight}
+                      onChange={(e) => setWeight(e.target.value)}
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">Category</label>
+                    <label className="form-label">Container</label>
                     <select
                       className="form-select"
-                      value={cat}
-                      onChange={(e) => setCat(e.target.value)}
+                      value={container}
+                      onChange={(e) => setContainer(e.target.value)}
                     >
                       <option value={0} disabled>
                         Choose from list
                       </option>
-                      {cats?.map((c) => (
+                      {containers?.map((c) => (
                         <option key={c.id} value={c.id}>
-                          {c.title}
+                          {c.number}
                         </option>
                       ))}
                     </select>
@@ -146,4 +146,4 @@ function EditMovie() {
   );
 }
 
-export default EditMovie;
+export default Edit;

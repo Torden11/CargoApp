@@ -4,18 +4,17 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { authConfig } from "../../Functions/auth";
 
-function MainHome() {
-  const [lastUpdate, setLastUpdate] = useState(Date.now());
-  const [movies, setMovies] = useState(null);
-  const [rateData, setRateData] = useState(null);
+function Main() {
+  
+  const [boxes, setBoxes] = useState(null);
   const filterOn = useRef(false);
   const filterWhat = useRef(null);
 
   // READ for list
   useEffect(() => {
-    axios.get("http://localhost:3003/home/movies", authConfig()).then((res) => {
+    axios.get("http://localhost:3003/home/boxes", authConfig()).then((res) => {
       if (filterOn.current) {
-        setMovies(
+        setBoxes(
           res.data.map((d, i) =>
             filterWhat.current === d.cat_id
               ? { ...d, show: true, row: i }
@@ -23,28 +22,18 @@ function MainHome() {
           )
         );
       } else {
-        setMovies(res.data.map((d, i) => ({ ...d, show: true, row: i })));
+        setBoxes(res.data.map((d, i) => ({ ...d, show: true, row: i })));
       }
     });
-  }, [lastUpdate]);
+  });
 
-  useEffect(() => {
-    if (null === rateData) {
-      return;
-    }
-    axios
-      .put("http://localhost:3003/home/movies/" + rateData.id, rateData, authConfig())
-      .then((res) => {
-        setLastUpdate(Date.now());
-      });
-  }, [rateData]);
+  
 
   return (
     <Home.Provider
       value={{
-        movies,
-        setRateData,
-        setMovies,
+        boxes,
+        setBoxes,
         filterOn,
         filterWhat,
       }}
@@ -60,4 +49,4 @@ function MainHome() {
   );
 }
 
-export default MainHome;
+export default Main;

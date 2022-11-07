@@ -2,7 +2,7 @@
 @import "./sass/line";
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(to bottom, #275f27, #13ce5b, #275f27,);
   background-repeat: repeat-y;
 }

@@ -1,16 +1,18 @@
 import { useContext, useState, useRef } from "react";
-import Movies from "../../Contexts/Movies";
+import Boxes from "../../Contexts/Boxes";
 //Nuotrauka
 import getBase64 from "../../Functions/getBase64";
 
-function CreateMovie() {
+function Create() {
   const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [cat, setCat] = useState(0);
+  const [weight, setWeight] = useState("");
+  const [flame, setFlame] = useState("");
+  const [perish, setPerish] = useState("");
+  const [container, setContainer] = useState(0);
   //Nuotrauka
   const fileInput = useRef();
 
-  const { setCreateData, cats } = useContext(Movies);
+  const { setCreateData, containers } = useContext(Boxes);
   //Nuotrauka
   const [photoPrint, setPhotoPrint] = useState(null);
   //Nuotrauka
@@ -25,14 +27,18 @@ function CreateMovie() {
   const add = () => {
     setCreateData({
       title,
-      price: parseFloat(price),
-      cat_id: parseInt(cat),
+      weight,
+      flame,
+      perish,
+      container_id: parseInt(container),
       //Nuotrauka
       image: photoPrint,
     });
     setTitle("");
-    setPrice("");
-    setCat(0);
+    setWeight("");
+    setFlame("");
+    setPerish("");
+    setContainer(0);
     //Nuotrauka
     setPhotoPrint(null);
     fileInput.current.value = null;
@@ -40,10 +46,10 @@ function CreateMovie() {
 
   return (
     <div className="card m-4">
-      <h5 className="card-header">New Movie</h5>
+      <h5 className="card-header">New Box</h5>
       <div className="card-body">
         <div className="mb-3">
-          <label className="form-label">Movie Title</label>
+          <label className="form-label">Item Title</label>
           <input
             type="text"
             className="form-control"
@@ -52,28 +58,58 @@ function CreateMovie() {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Movie Price</label>
+          <label className="form-label">Box weight</label>
           <input
             type="text"
             className="form-control"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
           />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Flammability</label>
+          <select
+            className="form-select"
+            value={flame}
+            onChange={(e) => setFlame(e.target.value)}
+          >
+            <option value={0}>Choose from list</option>
+            {["Yes", "No"].map((ugnis, i) => (
+              <option key={i} value={ugnis}>
+                {ugnis}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Perishable</label>
+          <select
+            className="form-select"
+            value={perish}
+            onChange={(e) => setPerish(e.target.value)}
+          >
+            <option value={0}>Choose from list</option>
+            {["Yes", "No"].map((perish, i) => (
+              <option key={i} value={perish}>
+                {perish}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <div className="mb-3">
-            <label className="form-label">Categories</label>
+            <label className="form-label">Containers</label>
             <select
               className="form-select"
-              value={cat}
-              onChange={(e) => setCat(e.target.value)}
+              value={container}
+              onChange={(e) => setContainer(e.target.value)}
             >
               <option value={0} disabled>
                 Choose from list
               </option>
-              {cats?.map((c) => (
+              {containers?.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.title}
+                  {c.number}
                 </option>
               ))}
             </select>
@@ -107,4 +143,4 @@ function CreateMovie() {
   );
 }
 
-export default CreateMovie;
+export default Create;

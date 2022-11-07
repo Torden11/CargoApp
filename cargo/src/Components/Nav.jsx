@@ -7,7 +7,7 @@ function Nav({ status }) {
         <div className="col-12">
           <nav className="navbar navbar-expand-lg navbar-dark">
             <div className="container-fluid">
-              <span className="navbar-brand">Movies App</span>
+              <span className="navbar-brand">Cargo App</span>
               <div className="navbar-collapse">
                 <div className="navbar-nav">
                   {status === 2 || status === 3 || status === 4 ? (
@@ -23,22 +23,22 @@ function Nav({ status }) {
                   ) : null}
                   {status === 3 ? (
                     <NavLink
-                      to="/categories"
+                      to="/containers"
                       className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link"
                       }
                     >
-                      Categories
+                      Containers
                     </NavLink>
                   ) : null}
                   {status === 3 ? (
                     <NavLink
-                      to="/movies"
+                      to="/boxes"
                       className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link"
                       }
                     >
-                      Movies
+                      Boxes
                     </NavLink>
                   ) : null}
                   {status !== 1 ? (

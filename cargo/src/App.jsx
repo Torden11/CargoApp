@@ -7,9 +7,9 @@ import {
   useNavigate,
 } from "react-router-dom";
 import Nav from "./Components/Nav";
-import Home from "./Components/home/MainHome";
-import MainCat from "./Components/cats/MainCat";
-import MainMovie from "./Components/movies/MainMovie";
+import Home from "./Components/home/Main";
+import MainCat from "./Components/containers/Main";
+import MainMovie from "./Components/boxes/Main";
 import { useState, useEffect } from "react";
 import { login, logout, authConfig } from "./Functions/auth";
 import React from "react";
@@ -34,7 +34,7 @@ function App() {
         <Route path="/login" element={<LoginPage setRoleChange={setRoleChange}/>} />
         <Route path="/logout" element={<LogoutPage setRoleChange={setRoleChange} />} />
         <Route
-          path="categories"
+          path="containers"
           element={
             <RequireAuth role="admin">
               <MainCat />
@@ -42,7 +42,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="movies"
+          path="boxes"
           element={
             <RequireAuth role="admin">
               <MainMovie />

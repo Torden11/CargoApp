@@ -1,35 +1,36 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import Movies from "../../Contexts/Movies";
-import CreateMovie from "./CreateMovie";
+import Boxes from "../../Contexts/Boxes";
+import Create from "./Create";
 import axios from "axios";
-import ListMovie from "./ListMovie";
-import EditMovie from "./EditMovie";
+import List from "./List";
+import Edit from "./Edit";
 import { authConfig } from "../../Functions/auth";
 
-function MainMovie() {
+function Main() {
   const [lastUpdate, setLastUpdate] = useState(Date.now());
   const [createData, setCreateData] = useState(null);
-  const [movies, setMovies] = useState(null);
+  const [boxes, setBoxes] = useState(null);
   const [deleteData, setDeleteData] = useState(null);
   const [modalData, setModalData] = useState(null);
   const [editData, setEditData] = useState(null);
 
-  const [cats, setCats] = useState(null);
+  const [containers, setContainers] = useState(null);
 
   // READ for select
   useEffect(() => {
-   axios.get('http://localhost:3003/server/cats', authConfig())
+   axios.get('http://localhost:3003/server/containers', authConfig())
        .then(res => {
-           setCats(res.data);
+           setContainers(res.data);
        })
 }, []);
 
+
 // READ for list
 useEffect(() => {
-   axios.get('http://localhost:3003/server/movies',authConfig())
+   axios.get('http://localhost:3003/server/boxes',authConfig())
        .then(res => {
-           setMovies(res.data);
+         setBoxes(res.data);
        })
 }, [lastUpdate]);
 
@@ -37,8 +38,9 @@ useEffect(() => {
    if (null === createData) {
        return;
    }
-   axios.post('http://localhost:3003/server/movies', createData, authConfig())
+   axios.post('http://localhost:3003/server/boxes', createData, authConfig())
        .then(res => {
+        console.log(createData)
            setLastUpdate(Date.now());
        });
 }, [createData]);
@@ -49,7 +51,7 @@ useEffect(() => {
       return;
     }
     axios
-      .delete("http://localhost:3003/server/movies/" + deleteData.id, authConfig())
+      .delete("http://localhost:3003/server/boxes/" + deleteData.id, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
       });
@@ -60,18 +62,18 @@ useEffect(() => {
       return;
     }console.log(editData.id, editData)
     axios
-      .put("http://localhost:3003/server/movies/" + editData.id, editData, authConfig())
+      .put("http://localhost:3003/server/boxes/" + editData.id, editData, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
       });
   }, [editData]);
 
   return (
-    <Movies.Provider
+    <Boxes.Provider
       value={{
-        cats,
+        containers,
         setCreateData,
-        movies,
+        boxes,
         setDeleteData,
         modalData,
         setModalData,
@@ -81,16 +83,16 @@ useEffect(() => {
       <div className="container">
         <div className="row">
           <div className="col-4">
-            <CreateMovie />
+            <Create />
           </div>
           <div className="col-8">
-            <ListMovie></ListMovie>
+            <List></List>
           </div>
         </div>
       </div>
-      <EditMovie></EditMovie>
-    </Movies.Provider>
+      <Edit></Edit>
+    </Boxes.Provider>
   );
 }
 
-export default MainMovie;
+export default Main;

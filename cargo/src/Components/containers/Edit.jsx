@@ -1,8 +1,8 @@
-import Cats from "../../Contexts/Cats";
+import Containers from "../../Contexts/Containers";
 import { useContext, useEffect, useState } from "react";
 
-function EditCat() {
-  const { modalData, setModalData, setEditData } = useContext(Cats);
+function Edit() {
+  const { modalData, setModalData, setEditData } = useContext(Containers);
   const [title, setTitle] = useState("");
 
   //Zemiau rasome useEffect kad atsidarant edit langui uzsipyldytu visi langai esama info
@@ -73,4 +73,4 @@ function EditCat() {
   );
 }
 
-export default EditCat;
+export default Edit;

@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import Movies from "../../Contexts/Movies";
+import Boxes from "../../Contexts/Boxes";
 
-function LineMovie({ movie }) {
-  const { setDeleteData, setModalData, cats } = useContext(Movies);
+function Line({ box }) {
+  const { setDeleteData, setModalData, containers } = useContext(Boxes);
 
   return (
     <li className="list-group-item">
@@ -10,34 +10,33 @@ function LineMovie({ movie }) {
         <div className="line_content">
           {/* Nuotrauka pradzia */}
           <div className="line_content_title">
-            {movie.image ? (
+            {box.image ? (
               <div className="img-bin">
-                <img src={movie.image} alt={movie.title}></img>
+                <img src={box.image} alt={box.title}></img>
               </div>
             ) : (
               <span className="red-image">No image</span>
             )}
           </div>
           {/* Nuotrauka pabaiga */}
-          <div className="line_content_title">{movie.title}</div>
-          <div className="line_content_price">{movie.price} EUR</div>
-          <div className="line_content_price">
-            {movie.rating ?? "no rating"}
-          </div>
+          <div className="line_content_title">{box.title}</div>
+          <div className="line_content_price">{box.weight} kg</div>
+          <div className="line_content_price">Flammable: {box.flammable}</div>
+          <div className="line_content_price">Perishable: {box.perishable}</div>
           <div className="line__content__info">
-            {cats.find((c) => c.id === movie.cat_id)?.title}
+            Container ID: {containers.find((c) => c.id === box.container_id)?.number}
           </div>
         </div>
         <div className="line_buttons">
           <button
-            onClick={() => setModalData(movie)}
+            onClick={() => setModalData(box)}
             type="button"
             className="btn btn-outline-success"
           >
             Edit
           </button>
           <button
-            onClick={() => setDeleteData(movie)}
+            onClick={() => setDeleteData(box)}
             type="button"
             className="btn btn-outline-danger"
           >
@@ -49,4 +48,4 @@ function LineMovie({ movie }) {
   );
 }
 
-export default LineMovie;
+export default Line;

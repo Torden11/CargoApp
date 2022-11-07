@@ -18,7 +18,7 @@ const con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "ruoniu_filmai",
+  database: "cargoapp",
 });
 
 //*******************LOGIN START**********************/
@@ -116,25 +116,25 @@ app.post("/login", (req, res) => {
 //CREATE
 // INSERT INTO table_name (column1, column2, column3, ...)
 // VALUES (value1, value2, value3, ...);
-app.post("/server/cats", (req, res) => {
+app.post("/server/containers", (req, res) => {
   const sql = `
-    INSERT INTO cats (title)
-    VALUES (?)
+    INSERT INTO containers (size, number)
+    VALUES (?, ?)
     `;
-  con.query(sql, [req.body.title], (err, result) => {
+  con.query(sql, [req.body.size, req.body.number], (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 });
 
-app.post("/server/movies", (req, res) => {
+app.post("/server/boxes", (req, res) => {
   const sql = `
-        INSERT INTO movies (title, price, cat_id, image)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO boxes (title, weight, flammable, perishable, container_id, image)
+        VALUES (?, ?, ?, ?, ?, ?)
         `;
   con.query(
     sql,
-    [req.body.title, req.body.price, req.body.cat_id, req.body.image],
+    [req.body.title, req.body.weight, req.body.flame, req.body.perish, req.body.container_id, req.body.image],
     (err, result) => {
       if (err) throw err;
       res.send(result);
@@ -143,10 +143,10 @@ app.post("/server/movies", (req, res) => {
 });
 
 //READ ALL
-app.get("/server/cats", (req, res) => {
+app.get("/server/containers", (req, res) => {
   const sql = `
     SELECT *
-    FROM cats
+    FROM containers
     ORDER BY id DESC
     `;
   con.query(sql, (err, result) => {
@@ -155,10 +155,10 @@ app.get("/server/cats", (req, res) => {
   });
 });
 
-app.get("/server/movies", (req, res) => {
+app.get("/server/boxes", (req, res) => {
   const sql = `
         SELECT *
-        FROM movies
+        FROM boxes
         ORDER BY id DESC
         `;
   con.query(sql, (err, result) => {
@@ -168,13 +168,13 @@ app.get("/server/movies", (req, res) => {
 });
 
 // //Nuskaitome is dvieju lenteliu
-app.get("/home/movies", (req, res) => {
+app.get("/home/boxes", (req, res) => {
   const sql = `
-    SELECT c.title AS catTitle, m.*, c.id AS cid
-    FROM cats AS c
-    INNER JOIN movies AS m
-    ON m.cat_id = c.id
-    ORDER BY m.title
+    SELECT c.number AS containerNumber, c.size AS containerSize, b.*, c.id AS cid
+    FROM containers AS c
+    INNER JOIN boxes AS b
+    ON b.container_id = c.id
+    ORDER BY b.title
     `;
   con.query(sql, (err, result) => {
     if (err) throw err;
@@ -183,9 +183,9 @@ app.get("/home/movies", (req, res) => {
 });
 
 //DELETE
-app.delete("/server/cats/:id", (req, res) => {
+app.delete("/server/containers/:id", (req, res) => {
   const sql = `
-    DELETE FROM cats
+    DELETE FROM containers
     WHERE id = ?
     `;
   con.query(sql, [req.params.id], (err, result) => {
@@ -194,9 +194,9 @@ app.delete("/server/cats/:id", (req, res) => {
   });
 });
 
-app.delete("/server/movies/:id", (req, res) => {
+app.delete("/server/boxes/:id", (req, res) => {
   const sql = `
-    DELETE FROM movies
+    DELETE FROM boxes
     WHERE id = ?
     `;
   con.query(sql, [req.params.id], (err, result) => {
@@ -210,9 +210,9 @@ app.delete("/server/movies/:id", (req, res) => {
 // SET column1 = value1, column2 = value2, ...
 // WHERE condition;
 
-app.put("/server/cats/:id", (req, res) => {
+app.put("/server/containers/:id", (req, res) => {
   const sql = `
-    UPDATE cats
+    UPDATE containers
     SET title = ?
     WHERE id = ?
     `;
@@ -222,36 +222,36 @@ app.put("/server/cats/:id", (req, res) => {
   });
 });
 
-app.put("/server/movies/:id", (req, res) => {
+app.put("/server/boxes/:id", (req, res) => {
   let sql;
   let request;
   if (req.body.deletePhoto) {
     sql = `
-    UPDATE movies
-    SET title = ?, price = ?, cat_id = ?, image = null
+    UPDATE boxes
+    SET title = ?, weight = ?, container_id = ?, image = null
     WHERE id = ?
     `;
-    request = [req.body.title, req.body.price, req.body.cat, req.params.id];
+    request = [req.body.title, req.body.weight, req.body.container, req.params.id];
   } else if (req.body.image) {
     sql = `
-    UPDATE movies
-    SET title = ?, price = ?, cat_id = ?, image = ?
+    UPDATE boxes
+    SET title = ?, weight = ?, container_id = ?, image = ?
     WHERE id = ?
     `;
     request = [
       req.body.title,
-      req.body.price,
-      req.body.cat,
+      req.body.weight,
+      req.body.container,
       req.body.image,
       req.params.id,
     ];
   } else {
     sql = `
-    UPDATE movies
-    SET title = ?, price = ?, cat_id = ?
+    UPDATE boxes
+    SET title = ?, weight = ?, container_id = ?
     WHERE id = ?
     `;
-    request = [req.body.title, req.body.price, req.body.cat, req.params.id];
+    request = [req.body.title, req.body.weight, req.body.container, req.params.id];
   }
 
   con.query(sql, request, (err, result) => {
@@ -260,9 +260,9 @@ app.put("/server/movies/:id", (req, res) => {
   });
 });
 
-app.put("/home/movies/:id", (req, res) => {
+app.put("/home/boxes/:id", (req, res) => {
   const sql = `
-    UPDATE movies
+    UPDATE boxes
     SET 
     rating_sum = rating_sum + ?, 
     rating_count = rating_count + 1, 
