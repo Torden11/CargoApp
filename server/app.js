@@ -137,7 +137,7 @@ app.post("/server/boxes", (req, res) => {
     [req.body.title, req.body.weight, req.body.flame, req.body.perish, req.body.container_id, req.body.image],
     (err, result) => {
       if (err) throw err;
-      res.send(result);
+      res.send({ msg: 'OK', text: 'New box has been added.', type: 'success' });
     }
   );
 });
@@ -168,13 +168,18 @@ app.get("/server/boxes", (req, res) => {
 });
 
 // //Nuskaitome is dvieju lenteliu
-app.get("/home/boxes", (req, res) => {
+// SELECT c.number AS containerNumber, c.size AS containerSize, b.*, c.id AS cid
+    // FROM containers AS c
+    // INNER JOIN boxes AS b
+    // ON b.container_id = c.id
+    // ORDER BY b.title
+app.get("/home/containers", (req, res) => {
   const sql = `
-    SELECT c.number AS containerNumber, c.size AS containerSize, b.*, c.id AS cid
+    SELECT c.*, b.id AS bid, b.title, b.weight, b.image, b.flammable, b.perishable
     FROM containers AS c
-    INNER JOIN boxes AS b
+    LEFT JOIN boxes AS b
     ON b.container_id = c.id
-    ORDER BY b.title
+    ORDER BY c.id
     `;
   con.query(sql, (err, result) => {
     if (err) throw err;

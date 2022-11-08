@@ -6,21 +6,21 @@ import Line from "./Line";
 
 
 function List() {
-  const { boxes, setBoxes, filterOn, filterWhat } = useContext(Home);
-  const [stats, setStats] = useState({movieCount: null});
+  const { containers, filterOn, filterWhat } = useContext(Home);
+  // const [stats, setStats] = useState({boxCount: null});
 
-  const resetFilter = () => {
-    setBoxes((b) => b.map((bo) => ({ ...bo, show: true })));
-    filterOn.current = false;
-    filterWhat.current = null;
-  };
+  // const resetFilter = () => {
+  //   setBoxes((b) => b.map((bo) => ({ ...bo, show: true })));
+  //   filterOn.current = false;
+  //   filterWhat.current = null;
+  // };
 
-  useEffect (() => {
-    if(null === boxes) {
-        return;
-    }
-    setStats(s => ({...s, boxCount: boxes.length}));
-  }, [boxes]);
+  // useEffect (() => {
+  //   if(null === boxes) {
+  //       return;
+  //   }
+  //   setStats(s => ({...s, boxCount: boxes.length}));
+  // }, [boxes]);
 
   
 
@@ -29,13 +29,14 @@ function List() {
     <>
       <div className="card m-4">
         <h5 className="card-header">
-          Containers List  <small onClick={resetFilter}>Show all containers</small>
-          <span>Total number of boxes: ({stats.boxCount})</span>
+          Containers List  
+          {/* <small onClick={resetFilter}>Show all containers</small>
+          <span>Total number of boxes: ({stats.boxCount})</span> */}
         </h5>
         <div className="card-body">
           <ul className="list-group">
-            {boxes?.map((b) =>
-              b.show ? <Line key={b.id} box={b} /> : null
+            {containers?.map((c) =>
+              <Line key={c[1][0].id} container={c} />
             )}
           </ul>
         </div>

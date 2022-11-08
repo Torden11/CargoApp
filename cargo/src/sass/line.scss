@@ -3,21 +3,22 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  &_content {
+  flex-wrap: wrap;
+  &__content {
     display: flex;
-    align-items: center;
-    &_title {
+    flex-wrap: wrap;
+    &__title {
       font-size: 20px;
       font-weight: bold;
-      margin-right: 10px;
+      margin-right: 50px;
     }
-    &_price {
+    &__info {
       font-size: 20px;
       letter-spacing: 1px;
-      margin-right: 10px;
+      margin-right: 30px;
     }
   }
-  &_buttons {
+  &__buttons {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -32,8 +33,11 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  flex-wrap: wrap;
+
   &__content {
     display: flex;
+    flex-wrap: wrap;
     &__title {
       font-size: 20px;
       font-weight: bold;
@@ -42,15 +46,16 @@
     &__info {
       font-size: 20px;
       letter-spacing: 1px;
-      margin-right: 10px;
+      margin-right: 25px;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-      min-width: 300px;
+      flex-wrap: wrap;
+      min-width: 250px;
       h2 {
-        font-size: 30px;
+        font-size: 20px;
         color: cornflowerblue;
+        margin-right: 15px;
       }
     }
     &__cat {
@@ -62,8 +67,11 @@
     }
     &__price {
       color: gray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin-right: 10px;
-      width: 80px;
+      width: 100px;
       padding-top: 10px;
     }
   }
@@ -83,16 +91,4 @@
   &:hover {
     opacity: 0.7;
   }
-}
-
-h5 small {
-  font-size: 60%;
-  color: violet;
-  cursor: pointer;
-  user-select: none;
-}
-h5 span {
-  font-size: 60%;
-  color: green;
-  margin-left: 10px;
 }

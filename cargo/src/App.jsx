@@ -10,18 +10,39 @@ import Nav from "./Components/Nav";
 import Home from "./Components/home/Main";
 import MainCat from "./Components/containers/Main";
 import MainMovie from "./Components/boxes/Main";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { login, logout, authConfig } from "./Functions/auth";
 import React from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
+import DataContext from './Contexts/DataContext';
+import Messages from './Components/Messages';
 
 function App() {
 
   const [roleChange, setRoleChange] = useState(Date.now());
+  const [msgs, setMsgs] = useState([]);
+
+  const makeMsg = useCallback(text => {
+    const msg = {
+      id: uuidv4(),
+      text
+    }
+    setMsgs(m => [...m, msg]);
+    setTimeout(() => {
+      setMsgs(m => m.filter(mes => mes.id !== msg.id));
+    }, 6000);
+  }, []);
 
   return (
+    <DataContext.Provider value={{
+      msgs,
+      setMsgs,
+      makeMsg
+    }}>
     <BrowserRouter>
       <ShowNav roleChange={roleChange} />
+      <Messages/>
       <Routes>
         <Route
           path="/"
@@ -51,6 +72,7 @@ function App() {
         ></Route>
       </Routes>
     </BrowserRouter>
+    </DataContext.Provider>
   );
 }
 

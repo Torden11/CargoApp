@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Boxes from "../../Contexts/Boxes";
 import Create from "./Create";
 import axios from "axios";
 import List from "./List";
 import Edit from "./Edit";
 import { authConfig } from "../../Functions/auth";
+import DataContext from "../../Contexts/DataContext";
 
 function Main() {
   const [lastUpdate, setLastUpdate] = useState(Date.now());
@@ -16,6 +17,7 @@ function Main() {
   const [editData, setEditData] = useState(null);
 
   const [containers, setContainers] = useState(null);
+  const { makeMsg } = useContext(DataContext);
 
   // READ for select
   useEffect(() => {
@@ -42,8 +44,9 @@ useEffect(() => {
        .then(res => {
         console.log(createData)
            setLastUpdate(Date.now());
+           makeMsg(res.data.text);
        });
-}, [createData]);
+}, [createData, makeMsg]);
 
 
   useEffect(() => {

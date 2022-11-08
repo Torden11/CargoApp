@@ -3,14 +3,14 @@ import Containers from "../../Contexts/Containers";
 import rand from "../../Functions/rand"
 
 function Create() {
-  const [number, setNumber] = useState(rand(10, 100));
+  const [number, setNumber] = useState('');
   const [size, setSize] = useState("");
 
   const { setCreateData } = useContext(Containers);
 
   const add = () => {
     setCreateData({
-      number: "CA"+ rand(10, 100),
+      number: "CA"+ rand(100, 999),
       size,
     });
     setNumber("");
