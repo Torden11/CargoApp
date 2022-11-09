@@ -153,15 +153,15 @@ function Edit() {
                     </div>
                     {photoPrint ? (
                       <div className="img-bin">
-                        <div>
+                        <label htmlFor="image-delete">X</label>
                           <input
                             id="image-delete"
                             type="checkbox"
                             checked={deletePhoto}
                             onChange={() => setDeletePhoto((d) => !d)}
                           />
-                          <label htmlFor="image-delete">Delete photo</label>
-                        </div>
+                          
+                        
                         <img src={photoPrint} alt="upload"></img>
                       </div>
                     ) : null}

@@ -42,6 +42,45 @@ body {
   background-color: green;
 }
 
+.navbar #hidden {
+  display: flex;
+  }
+
+  .menu-btn {
+    display: none;
+  }
+
+.navbar-collapse {
+  cursor: pointer;
+
+  @media only screen and (max-width: 995px) {
+
+    .menu-btn {
+      display: block;
+  
+      border: 2px solid white;
+      border-radius: 4px;
+    }
+    
+    .navbar-nav {
+      display: none;
+    }
+  
+    .navbar #hidden {
+      position: absolute;
+      left: 0px;
+      top: 56px;
+      max-height: 250px;
+      width: 100%;
+      background-color: #212529;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+    }
+}
+}
+
 .img-bin {
   margin: 10px;
   display: flex;

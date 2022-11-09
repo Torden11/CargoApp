@@ -2,6 +2,7 @@ import { useContext, useState, useRef } from "react";
 import Boxes from "../../Contexts/Boxes";
 //Nuotrauka
 import getBase64 from "../../Functions/getBase64";
+import DataContext from "../../Contexts/DataContext";
 
 function Create() {
   const [title, setTitle] = useState("");
@@ -11,6 +12,7 @@ function Create() {
   const [container, setContainer] = useState(0);
   //Nuotrauka
   const fileInput = useRef();
+  const { makeMsg } = useContext(DataContext);
 
   const { setCreateData, containers } = useContext(Boxes);
   //Nuotrauka
@@ -25,15 +27,26 @@ function Create() {
   };
 
   const add = () => {
-    setCreateData({
-      title,
-      weight,
-      flame,
-      perish,
-      container_id: parseInt(container),
-      //Nuotrauka
-      image: photoPrint,
-    });
+    if (title.length === 0 || title.length > 30) {
+      makeMsg('Please choose the item title between 1 and 30', 'error');
+      return;
+    } else if (weight > 200 || weight < 1) {
+      makeMsg('Invalid weight. Please enter weight between 1 kg and 200 kg','error');
+      return;
+    }
+    if (container === "" || flame === "" || perish === "") {
+      makeMsg('You must choose all properties from select fields', 'error');
+      return;
+    } else
+      setCreateData({
+        title,
+        weight,
+        flame,
+        perish,
+        container_id: parseInt(container),
+        //Nuotrauka
+        image: photoPrint,
+      });
     setTitle("");
     setWeight("");
     setFlame("");

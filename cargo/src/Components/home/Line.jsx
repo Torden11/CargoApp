@@ -1,13 +1,15 @@
-import { useContext } from "react";
-import Home from "../../Contexts/Home";
+import { useEffect, useState } from "react";
+
 
 function Line({ container }) {
-//   let n = 0;
-//   if (container[1][0].bid === null) {
-//     n = 0;
-//   } else {
-//     n = container[1].length;
-//   }
+  const [totalWeight, setTotalWeight] = useState(0);
+
+  let n = 0;
+  if (container[1][0].bid === null) {
+    n = 0;
+  } else {
+    n = container[1].length;
+  }
 
   // const { setBoxes, filterOn, filterWhat } = useContext(Home);
 
@@ -23,6 +25,12 @@ function Line({ container }) {
   //     filterOn.current = !filterOn.current;
   // }
 
+  useEffect(() => {
+    container[1]?.forEach((b) => {
+      setTotalWeight((prevW) => prevW + b.weight);
+    });
+  }, [container]);
+
   return (
     <li className="list-group-item">
       <div className="home">
@@ -35,6 +43,8 @@ function Line({ container }) {
         <div className="home__content__title">
           Container Size: {container[1][0].size}
         </div>
+        <div>Boxes in the container: {n}</div>
+        <div>Total weight: {totalWeight} kg</div>
         <div className="home__content">
           <ul className="list-group">
             {container[1]?.map((b) =>

@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { useContext, useEffect } from "react";
+import { useContext} from "react";
 import Home from "../../Contexts/Home";
 import Line from "./Line";
 
 
 
 function List() {
-  const { containers, filterOn, filterWhat } = useContext(Home);
+  const { containers} = useContext(Home);
   // const [stats, setStats] = useState({boxCount: null});
 
   // const resetFilter = () => {

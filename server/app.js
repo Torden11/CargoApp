@@ -228,18 +228,19 @@ app.delete("/server/boxes/:id", (req, res) => {
 // SET column1 = value1, column2 = value2, ...
 // WHERE condition;
 
-app.put("/server/containers/:id", (req, res) => {
-  const sql = `
-    UPDATE containers
-    SET title = ?
-    WHERE id = ?
-    `;
-  con.query(sql, [req.body.title, req.params.id], (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
-});
+// app.put("/server/containers/:id", (req, res) => {
+//   const sql = `
+//     UPDATE containers
+//     SET title = ?
+//     WHERE id = ?
+//     `;
+//   con.query(sql, [req.body.title, req.params.id], (err, result) => {
+//     if (err) throw err;
+//     res.send(result);
+//   });
+// });
 
+//UPDATE BOXES for admin
 app.put("/server/boxes/:id", (req, res) => {
   let sql;
   let request;
@@ -291,20 +292,20 @@ app.put("/server/boxes/:id", (req, res) => {
   });
 });
 
-app.put("/home/boxes/:id", (req, res) => {
-  const sql = `
-    UPDATE boxes
-    SET 
-    rating_sum = rating_sum + ?, 
-    rating_count = rating_count + 1, 
-    rating = rating_sum / rating_count
-    WHERE id = ?
-    `;
-  con.query(sql, [req.body.rate, req.params.id], (err, result) => {
-    if (err) throw err;
-    res.send({ msg: 'OK', text: 'The box has been edited.', type: 'info' });
-  });
-});
+// app.put("/home/boxes/:id", (req, res) => {
+//   const sql = `
+//     UPDATE boxes
+//     SET 
+//     rating_sum = rating_sum + ?, 
+//     rating_count = rating_count + 1, 
+//     rating = rating_sum / rating_count
+//     WHERE id = ?
+//     `;
+//   con.query(sql, [req.body.rate, req.params.id], (err, result) => {
+//     if (err) throw err;
+//     res.send({ msg: 'OK', text: 'The box has been edited.', type: 'info' });
+//   });
+// });
 
 app.listen(port, () => {
   console.log(`Cargo krauna per ${port} portą!`);

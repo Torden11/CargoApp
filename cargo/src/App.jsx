@@ -23,6 +23,7 @@ function App() {
 
   const [roleChange, setRoleChange] = useState(Date.now());
   const [msgs, setMsgs] = useState([]);
+  const [showLinks, setShowLinks] = useState(false);
 
   const makeMsg = useCallback((text, type = '') => {
     let msgTypeClass;
@@ -50,7 +51,9 @@ function App() {
     <DataContext.Provider value={{
       msgs,
       setMsgs,
-      makeMsg
+      makeMsg,
+      showLinks,
+      setShowLinks
     }}>
     <BrowserRouter>
       <ShowNav roleChange={roleChange} />
