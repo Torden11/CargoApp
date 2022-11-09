@@ -46,6 +46,7 @@ function Nav({ status }) {
                       Logout
                     </NavLink>
                   ) : null}
+                  {status === 1 ? <NavLink to="/register" className="nav-link">Register</NavLink> : null}
                 </div>
               </div>
             </div>

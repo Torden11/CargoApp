@@ -42,7 +42,7 @@ const doAuth = function(req, res, next) {
                 }
             }
         );
-    } else if (0 === req.url.indexOf('/login-check') || 0 === req.url.indexOf('/login')) {
+    } else if (0 === req.url.indexOf('/login-check') || 0 === req.url.indexOf('/login') || 0 === req.url.indexOf('/register')) {
         next();
     } else { // fron
         const sql = `
@@ -104,11 +104,23 @@ app.post("/login", (req, res) => {
     con.query(sql, [key, req.body.user, md5(req.body.pass)], (err, result) => {
         if (err) throw err;
         if (!result.affectedRows) {
-            res.send({ msg: 'error', key: '' });
+          res.status(401).send({ msg: 'error', key: '' });
         } else {
-            res.send({ msg: 'ok', key });
+            res.send({ msg: 'ok', key, text: 'Thanks for coming back ' + req.body.user + ' ! :)', type: 'info' });
         }
     });
+});
+
+app.post("/register", (req, res) => {
+  const key = uuid.v4();
+  const sql = `
+  INSERT INTO users (name, psw, session)
+  VALUES (?, ?, ?)
+`;
+  con.query(sql, [req.body.name, md5(req.body.pass), key], (err, result) => {
+      if (err) throw err;
+      res.send({ msg: 'ok', key, text: 'Welcome!', type: 'info' });
+  });
 });
 
 //*******************LOGIN END********************/
@@ -123,7 +135,7 @@ app.post("/server/containers", (req, res) => {
     `;
   con.query(sql, [req.body.size, req.body.number], (err, result) => {
     if (err) throw err;
-    res.send(result);
+    res.send({ msg: 'OK', text: 'New container has been added.', type: 'success' });
   });
 });
 
@@ -195,7 +207,7 @@ app.delete("/server/containers/:id", (req, res) => {
     `;
   con.query(sql, [req.params.id], (err, result) => {
     if (err) throw err;
-    res.send(result);
+    res.send({ msg: 'OK', text: 'The container has been deleted.', type: 'info' });
   });
 });
 
@@ -206,7 +218,7 @@ app.delete("/server/boxes/:id", (req, res) => {
     `;
   con.query(sql, [req.params.id], (err, result) => {
     if (err) throw err;
-    res.send(result);
+    res.send({ msg: 'OK', text: 'The box has been deleted.', type: 'info' });
   });
 });
 
@@ -261,7 +273,7 @@ app.put("/server/boxes/:id", (req, res) => {
 
   con.query(sql, request, (err, result) => {
     if (err) throw err;
-    res.send(result);
+    res.send({ msg: 'OK', text: 'The box has been edited.', type: 'info' });
   });
 });
 
@@ -276,7 +288,7 @@ app.put("/home/boxes/:id", (req, res) => {
     `;
   con.query(sql, [req.body.rate, req.params.id], (err, result) => {
     if (err) throw err;
-    res.send(result);
+    res.send({ msg: 'OK', text: 'The box has been edited.', type: 'info' });
   });
 });
 

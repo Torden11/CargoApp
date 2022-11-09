@@ -17,7 +17,7 @@ function Messages() {
         <div className="msg-bin">
             {
                 msgs.map(m =>
-                    <div className="toast show" role="alert">
+                    <div key={m.id} className={'toast show ' + m.class} role="alert">
                         <div className="toast-header">
                             <strong className="me-auto">CargoApp</strong>
                             <button onClick={() => closeMsg(m.id)} type="button" className="btn-close"></button>

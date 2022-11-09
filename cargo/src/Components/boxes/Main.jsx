@@ -44,7 +44,7 @@ useEffect(() => {
        .then(res => {
         console.log(createData)
            setLastUpdate(Date.now());
-           makeMsg(res.data.text);
+           makeMsg(res.data.text, res.data.type);
        });
 }, [createData, makeMsg]);
 
@@ -57,8 +57,9 @@ useEffect(() => {
       .delete("http://localhost:3003/server/boxes/" + deleteData.id, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
+        makeMsg(res.data.text, res.data.type);
       });
-  }, [deleteData]);
+  }, [deleteData, makeMsg]);
 
   useEffect(() => {
     if (null === editData) {
@@ -68,8 +69,9 @@ useEffect(() => {
       .put("http://localhost:3003/server/boxes/" + editData.id, editData, authConfig())
       .then((res) => {
         setLastUpdate(Date.now());
+        makeMsg(res.data.text, res.data.type);
       });
-  }, [editData]);
+  }, [editData, makeMsg]);
 
   return (
     <Boxes.Provider
