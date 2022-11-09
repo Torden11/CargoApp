@@ -125,7 +125,7 @@ app.post("/register", (req, res) => {
 
 //*******************LOGIN END********************/
 
-//CREATE
+//CREATE CONTAINERS for admin
 // INSERT INTO table_name (column1, column2, column3, ...)
 // VALUES (value1, value2, value3, ...);
 app.post("/server/containers", (req, res) => {
@@ -139,6 +139,7 @@ app.post("/server/containers", (req, res) => {
   });
 });
 
+//CREATE BOXES for admin
 app.post("/server/boxes", (req, res) => {
   const sql = `
         INSERT INTO boxes (title, weight, flammable, perishable, container_id, image)
@@ -154,7 +155,7 @@ app.post("/server/boxes", (req, res) => {
   );
 });
 
-//READ ALL
+//READ CONTAINERS for admin
 app.get("/server/containers", (req, res) => {
   const sql = `
     SELECT *
@@ -167,6 +168,8 @@ app.get("/server/containers", (req, res) => {
   });
 });
 
+
+//READ BOXES for admin
 app.get("/server/boxes", (req, res) => {
   const sql = `
         SELECT *
@@ -179,12 +182,8 @@ app.get("/server/boxes", (req, res) => {
   });
 });
 
-// //Nuskaitome is dvieju lenteliu
-// SELECT c.number AS containerNumber, c.size AS containerSize, b.*, c.id AS cid
-    // FROM containers AS c
-    // INNER JOIN boxes AS b
-    // ON b.container_id = c.id
-    // ORDER BY b.title
+//Nuskaitome is dvieju lenteliu HOME for all
+
 app.get("/home/containers", (req, res) => {
   const sql = `
     SELECT c.*, b.id AS bid, b.title, b.weight, b.image, b.flammable, b.perishable
@@ -199,7 +198,7 @@ app.get("/home/containers", (req, res) => {
   });
 });
 
-//DELETE
+//DELETE CONTAINERS for admin
 app.delete("/server/containers/:id", (req, res) => {
   const sql = `
     DELETE FROM containers
@@ -211,6 +210,7 @@ app.delete("/server/containers/:id", (req, res) => {
   });
 });
 
+//DELETE BOXES for admin
 app.delete("/server/boxes/:id", (req, res) => {
   const sql = `
     DELETE FROM boxes
@@ -222,7 +222,8 @@ app.delete("/server/boxes/:id", (req, res) => {
   });
 });
 
-//EDIT (kartu padarytas editas su nuotraukos redagavimu)
+//UPDATE CONTAINERS for admin
+// (kartu padarytas editas su nuotraukos redagavimu)
 // UPDATE table_name
 // SET column1 = value1, column2 = value2, ...
 // WHERE condition;
@@ -245,19 +246,26 @@ app.put("/server/boxes/:id", (req, res) => {
   if (req.body.deletePhoto) {
     sql = `
     UPDATE boxes
-    SET title = ?, weight = ?, container_id = ?, image = null
+    SET title = ?, weight = ?, flammable = ?, perishable = ?, container_id = ?, image = null
     WHERE id = ?
     `;
-    request = [req.body.title, req.body.weight, req.body.container, req.params.id];
+    request = [req.body.title, 
+      req.body.weight, 
+      req.body.flame, 
+      req.body.perish, 
+      req.body.container, 
+      req.params.id];
   } else if (req.body.image) {
     sql = `
     UPDATE boxes
-    SET title = ?, weight = ?, container_id = ?, image = ?
+    SET title = ?, weight = ?, flammable = ?, perishable = ?,container_id = ?, image = ?
     WHERE id = ?
     `;
     request = [
       req.body.title,
       req.body.weight,
+      req.body.flame, 
+      req.body.perish,
       req.body.container,
       req.body.image,
       req.params.id,
@@ -265,10 +273,16 @@ app.put("/server/boxes/:id", (req, res) => {
   } else {
     sql = `
     UPDATE boxes
-    SET title = ?, weight = ?, container_id = ?
+    SET title = ?, weight = ?, flammable = ?, perishable = ?,container_id = ?
     WHERE id = ?
     `;
-    request = [req.body.title, req.body.weight, req.body.container, req.params.id];
+    request = [
+      req.body.title, 
+      req.body.weight, 
+      req.body.flame, 
+      req.body.perish, 
+      req.body.container, 
+      req.params.id];
   }
 
   con.query(sql, request, (err, result) => {

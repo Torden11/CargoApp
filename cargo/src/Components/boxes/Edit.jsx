@@ -4,17 +4,20 @@ import { useContext, useEffect, useState, useRef } from "react";
 import getBase64 from "../../Functions/getBase64";
 
 function Edit() {
-  const { modalData, setModalData, setEditData, containers } = useContext(Boxes);
+  const { modalData, setModalData, setEditData, containers } =
+    useContext(Boxes);
   const [title, setTitle] = useState("");
   const [weight, setWeight] = useState("");
+  const [flame, setFlame] = useState("");
+  const [perish, setPerish] = useState("");
   const [container, setContainer] = useState(0);
   const [deletePhoto, setDeletePhoto] = useState(false);
 
   //Nuotrauka
   const fileInput = useRef();
-//Nuotrauka
+  //Nuotrauka
   const [photoPrint, setPhotoPrint] = useState(null);
-//Nuotrauka
+  //Nuotrauka
   const doPhoto = () => {
     getBase64(fileInput.current.files[0])
       .then((photo) => setPhotoPrint(photo))
@@ -31,6 +34,8 @@ function Edit() {
     // console.log(modalData)
     setTitle(modalData.title);
     setWeight(modalData.weight);
+    setFlame(modalData.flame);
+    setPerish(modalData.perish);
     setContainer(modalData.container_id);
     //Nuotrauka
     setPhotoPrint(modalData.image);
@@ -42,10 +47,12 @@ function Edit() {
     setEditData({
       title,
       weight,
+      flame,
+      perish,
       container: parseInt(container),
       id: modalData.id,
       deletePhoto: deletePhoto ? 1 : 0,
-      image: photoPrint
+      image: photoPrint,
     });
     //Uzdarome modala. t.y. setititle ji null
     setModalData(null);
@@ -61,7 +68,7 @@ function Edit() {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Edit movie</h5>
+            <h5 className="modal-title">Edit Box</h5>
             <button
               onClick={() => setModalData(null)}
               type="button"
@@ -87,6 +94,36 @@ function Edit() {
                       value={weight}
                       onChange={(e) => setWeight(e.target.value)}
                     />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Flammability</label>
+                    <select
+                      className="form-select"
+                      value={flame}
+                      onChange={(e) => setFlame(e.target.value)}
+                    >
+                      <option value={0}>Choose from list</option>
+                      {["Yes", "No"].map((ugnis, i) => (
+                        <option key={i} value={ugnis}>
+                          {ugnis}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Perishable</label>
+                    <select
+                      className="form-select"
+                      value={perish}
+                      onChange={(e) => setPerish(e.target.value)}
+                    >
+                      <option value={0}>Choose from list</option>
+                      {["Yes", "No"].map((perish, i) => (
+                        <option key={i} value={perish}>
+                          {perish}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Container</label>
@@ -117,7 +154,12 @@ function Edit() {
                     {photoPrint ? (
                       <div className="img-bin">
                         <div>
-                          <input id="image-delete" type="checkbox" checked={deletePhoto} onChange={() => setDeletePhoto(d => !d)} />
+                          <input
+                            id="image-delete"
+                            type="checkbox"
+                            checked={deletePhoto}
+                            onChange={() => setDeletePhoto((d) => !d)}
+                          />
                           <label htmlFor="image-delete">Delete photo</label>
                         </div>
                         <img src={photoPrint} alt="upload"></img>

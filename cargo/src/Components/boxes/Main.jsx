@@ -19,7 +19,7 @@ function Main() {
   const [containers, setContainers] = useState(null);
   const { makeMsg } = useContext(DataContext);
 
-  // READ for select
+  // READ for select of containers for admin in BOXES
   useEffect(() => {
    axios.get('http://localhost:3003/server/containers', authConfig())
        .then(res => {
@@ -28,7 +28,7 @@ function Main() {
 }, []);
 
 
-// READ for list
+// READ BOX for admin
 useEffect(() => {
    axios.get('http://localhost:3003/server/boxes',authConfig())
        .then(res => {
@@ -36,19 +36,19 @@ useEffect(() => {
        })
 }, [lastUpdate]);
 
+//CREATE BOX for admin
 useEffect(() => {
    if (null === createData) {
        return;
    }
    axios.post('http://localhost:3003/server/boxes', createData, authConfig())
        .then(res => {
-        console.log(createData)
            setLastUpdate(Date.now());
            makeMsg(res.data.text, res.data.type);
        });
 }, [createData, makeMsg]);
 
-
+//DELETE of BOX for admin
   useEffect(() => {
     if (null === deleteData) {
       return;
@@ -61,10 +61,11 @@ useEffect(() => {
       });
   }, [deleteData, makeMsg]);
 
+  //UPDATE of BOX for ADMIN
   useEffect(() => {
     if (null === editData) {
       return;
-    }console.log(editData.id, editData)
+    }
     axios
       .put("http://localhost:3003/server/boxes/" + editData.id, editData, authConfig())
       .then((res) => {
