@@ -31,7 +31,7 @@ function Edit() {
     if (null === modalData) {
       return;
     }
-    // console.log(modalData)
+    //console.log(modalData)
     setTitle(modalData.title);
     setWeight(modalData.weight);
     setFlame(modalData.flame);

@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import Home from "../../Contexts/Home";
 
 
 function Line({ container }) {
+  const { setModalData } = useContext(Home);
+
   const [totalWeight, setTotalWeight] = useState(0);
+
 
   let n = 0;
   if (container[1][0].bid === null) {
@@ -36,7 +40,7 @@ function Line({ container }) {
       <div className="home">
         <div
           className="home__content__title click-link"
-          // onClick={filter}
+          onClick={() => setModalData(container)}
         >
           Container Number: {container[1][0].number}
         </div>
