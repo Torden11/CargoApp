@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 function HomeModal() {
   const { modalData, setModalData } = useContext(Home);
-  console.log(modalData)
+  console.log(modalData);
   if (null === modalData) {
     return null;
   }
@@ -22,22 +22,27 @@ function HomeModal() {
           </div>
           <div className="modal-body">
             <div className="card m-4">
-              <div className="home__content">
+              <div className="card-body">
                 <ul className="list-group">
-                  <li className="home-group-item">
-                    <div className="home_content_info">
-                      <div>Box content: {modalData[1][0].title}</div>
-                      <div>Box weight: {modalData[1][0].weight} kg</div>
-                      <div>Flammable: {modalData[1][0].flammable}</div>
-                      <div>Perishable: {modalData[1][0].perishable}</div>
-                      <div className="img-bin">
-                        <img
-                          src={modalData[1][0].image}
-                          alt={modalData[1][0].title}
-                        ></img>
+                  {modalData[1]?.map((b) => (
+                    <li key={b.bid} className="home-group-item">
+                      <div className="home__content__modal">
+                        <div>Box content: {b.title}</div>
+                        <div>Box weight: {b.weight} kg</div>
+                        <div>Flammable: {b.flammable}</div>
+                        <div>Perishable: {b.perishable}</div>
+                        <div className="line_content_title">
+                          {b.image ? (
+                            <div className="img-bin">
+                              <img src={b.image} alt={b.title}></img>
+                            </div>
+                          ) : (
+                            <span className="red-image">No image</span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
