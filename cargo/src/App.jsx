@@ -124,57 +124,5 @@ function RequireAuth({ children, role }) {
   return view;
 }
 
-// function LoginPage({setRoleChange}) {
-//   const navigate = useNavigate();
-
-//   const [user, setUser] = useState("");
-//   const [pass, setPass] = useState("");
-//   const { makeMsg } = useContext(DataContext);
-
-//   const doLogin = () => {
-//     axios.post("http://localhost:3003/login", { user, pass }).then((res) => {
-//       setRoleChange(Date.now());
-//       if ("ok" === res.data.msg) {
-//         login(res.data.key);
-//         navigate("/", { replace: true });
-//         makeMsg(res.data.text, res.data.type);
-//       }
-//     })
-//     .catch(() => {
-//       makeMsg('You are not logged in.', 'error');
-//     })
-//   };
-//   return (
-//     <div className="container-login">
-//       <div className="login-content">
-//         Name:{" "}
-//         <input
-//           type="text"
-//           value={user}
-//           onChange={(e) => setUser(e.target.value)}
-//         ></input>
-//       </div>
-//       <div className="login-content">
-//         Password:{" "}
-//         <input
-//           type="password"
-//           value={pass}
-//           onChange={(e) => setPass(e.target.value)}
-//         ></input>
-//       </div>
-//       <button onClick={doLogin}>Login</button>
-//     </div>
-//   );
-// }
-
-// function LogoutPage({setRoleChange}) {
-//   const { makeMsg } = useContext(DataContext);
-//   useEffect(() => {
-//     logout();
-//     setRoleChange(Date.now());
-//   makeMsg('See you soon!', 'info');
-//   }, [setRoleChange, makeMsg]);
-//   return <Navigate to="/login" replace />;
-// }
 
 export default App;
