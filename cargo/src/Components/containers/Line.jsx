@@ -12,13 +12,13 @@ function Line({ container }) {
   return (
     <li className="list-group-item">
       <div className="line">
-      <div className="line_content">
-          <div className="line_content_title">Number: {container.number}</div>
+      <div className="line__content">
+          <div className="line__content__title">Number: {container.number}</div>
         </div>
-        <div className="line_content">
-          <div className="line_content_title">Size: {container.size}</div>
+        <div className="line__content">
+          <div className="line__content__title">Size: {container.size}</div>
         </div>
-        <div className="line_buttons">
+        <div className="line__buttons">
           {/* <button onClick={() => setModalData(container)} type="button" className="btn btn-outline-success">
             Edit
           </button> */}
